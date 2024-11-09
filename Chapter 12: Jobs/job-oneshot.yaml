@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
       - name: kuard
-        image: gcr.io/kuar-demo/kuard-amd64:blue
+        image: petergruber/kuar-demo:blue
         imagePullPolicy: Always
         command:
         - "/kuard"

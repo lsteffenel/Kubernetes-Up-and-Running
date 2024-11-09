@@ -1,19 +1,22 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: parallel
   labels:
+    app: message-queue
+    component: consumer
     chapter: jobs
+  name: consumers
 spec:
   parallelism: 5
-  completions: 10
   template:
     metadata:
       labels:
+        app: message-queue
+        component: consumer
         chapter: jobs
     spec:
       containers:
-      - name: kuard
+      - name: worker
         image: petergruber/kuar-demo:blue
         imagePullPolicy: Always
         command:
@@ -21,5 +24,7 @@ spec:
         args:
         - "--keygen-enable"
         - "--keygen-exit-on-complete"
-        - "--keygen-num-to-gen=10"
+        - "--keygen-memq-server=http://queue:80/memq/server"
+        - "--keygen-memq-queue=keygen"
       restartPolicy: OnFailure
+
